@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/videostreamingapp/static/css/main.956beb5e.css",
+    "main.js": "/videostreamingapp/static/js/main.b7b90f88.js",
+    "static/js/453.fc8476ae.chunk.js": "/videostreamingapp/static/js/453.fc8476ae.chunk.js",
+    "index.html": "/videostreamingapp/index.html",
+    "main.956beb5e.css.map": "/videostreamingapp/static/css/main.956beb5e.css.map",
+    "main.b7b90f88.js.map": "/videostreamingapp/static/js/main.b7b90f88.js.map",
+    "453.fc8476ae.chunk.js.map": "/videostreamingapp/static/js/453.fc8476ae.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.956beb5e.css",
+    "static/js/main.b7b90f88.js"
+  ]
+}
