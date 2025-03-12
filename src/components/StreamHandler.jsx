@@ -3,7 +3,6 @@ import AgoraRTM from "agora-rtm-sdk"
 import { useLocation } from "react-router"
 import { useNavigate } from "react-router"
 let first=true
-let isStreamer = false;
 const StreamHandler = () => {
     const navigate = useNavigate();
     const {state} = useLocation();
@@ -247,27 +246,44 @@ const StreamHandler = () => {
         }
     }
 
-    return(
-    <>
-        <div id="controls">
 
-        <div class="control-container" id="camera-btn">
-            <img src={require('./icons/camera.png')} alt='camera button' onClick={toggleCamera}/>
-        </div>
+    if(isStreamer === true ){
+        return(
+            <>
+                <div id="controls">
+        
+                <div class="control-container" id="camera-btn">
+                    <img src={require('./icons/camera.png')} alt='camera button' onClick={toggleCamera}/>
+                </div>
+        
+                <div class="control-container" id="mic-btn">
+                    <img src={require('./icons/mic.png')} alt='mic button' onClick={toggleMic}/>
+                </div>
+        
+                <a href="/videostreamingapp/">
+                    <div class="control-container" id="leave-btn">
+                        <img src={require('./icons/phone.png')} alt='phone button' onClick={leaveChannel}/>
+                    </div>
+                </a>
+                <div><h3>{roomID}</h3></div>
+                </div>
+            </>
+            )
+    }else{
+        return(
+        <>
+            <div id="controls">
 
-        <div class="control-container" id="mic-btn">
-            <img src={require('./icons/mic.png')} alt='mic button' onClick={toggleMic}/>
-        </div>
-
-        <a href="/videochat/">
-            <div class="control-container" id="leave-btn">
-                <img src={require('./icons/phone.png')} alt='phone button' onClick={leaveChannel}/>
+            <a href="/videostreamingapp/">
+                <div class="control-container" id="leave-btn">
+                    <img src={require('./icons/phone.png')} alt='phone button' onClick={leaveChannel}/>
+                </div>
+            </a>
+            <div><h3>{roomID}</h3></div>
             </div>
-        </a>
-        <div><h3>{roomID}</h3></div>
-        </div>
-    </>
-    )
+        </>
+        )
+    }
 }
 
 export default StreamHandler

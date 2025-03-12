@@ -40,8 +40,8 @@
 #videos{
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap:2em;
-  margin: 2em;
+  /* gap:2em;
+  margin: 2em; */
 }
 /* to flip the camera so that it is not inverted horizontally */
 video {
@@ -51,7 +51,7 @@ video {
 .video-player{
   background-color: black;
   width: 100%;
-  height: 300px;
+  height: 100%;
 }
 
 #user-2,#user-3,#user-4,#user-5,#user-6,#user-7,#user-8,#user-9,#user-10{
@@ -95,7 +95,7 @@ body {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
   object-fit: cover;
   transform: scaleX(-1);
-  width: 40%
+  /* width: 40% */
   
 }
 
