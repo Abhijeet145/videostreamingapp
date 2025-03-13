@@ -188,8 +188,8 @@ h3{
   right: 20px;
   color: red;
 }
-#roomid{
+/* #roomid{
   position: fixed;
   top:50px;
-  right: 20px;
-}
+  align-self: center;
+} */
