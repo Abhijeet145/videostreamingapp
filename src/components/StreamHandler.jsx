@@ -214,15 +214,9 @@ const StreamHandler = () => {
     let videoON = true;
 
     let toggleCamera = async () => {
-        
-        // localVideoStream = await navigator.mediaDevices.getUserMedia({video:true,audio:false})
-        // if(videoON === true)
-        //     document.getElementById('user-1').srcObject = null
-        // else{
-        //     document.getElementById('user-1').srcObject = localVideoStream
-        // }
-        // videoON = !videoON
+         //get the videotrack from stream
         let videoTrack = localStream.getTracks().find(track => track.kind === 'video')
+
         if(videoTrack.enabled){
             videoTrack.enabled = false
             document.getElementById('user-1').srcObject = null
@@ -235,6 +229,7 @@ const StreamHandler = () => {
     }
 
     let toggleMic = async () => {
+        //get the audiotrack from stream
         let audioTrack = localStream.getTracks().find(track => track.kind === 'audio')
 
         if(audioTrack.enabled){
@@ -246,10 +241,10 @@ const StreamHandler = () => {
         }
     }
 
-
     if(isStreamer === true ){
         return(
             <>
+            <div id="streamer">Streaming</div>
                 <div id="controls">
         
                 <div class="control-container" id="camera-btn">
@@ -265,13 +260,14 @@ const StreamHandler = () => {
                         <img src={require('./icons/phone.png')} alt='phone button' onClick={leaveChannel}/>
                     </div>
                 </a>
-                <div><h3>{roomID}</h3></div>
+                <div id="roomid"><h3>Room ID : {roomID}</h3></div>
                 </div>
             </>
             )
     }else{
         return(
         <>
+        <div id="receiver"> Live </div>
             <div id="controls">
 
             <a href="/videostreamingapp/">
@@ -279,7 +275,7 @@ const StreamHandler = () => {
                     <img src={require('./icons/phone.png')} alt='phone button' onClick={leaveChannel}/>
                 </div>
             </a>
-            <div><h3>{roomID}</h3></div>
+            <div id ="roomid">Room ID <h3>{roomID}</h3></div>
             </div>
         </>
         )

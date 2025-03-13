@@ -176,3 +176,20 @@ cursor: pointer;
 #leave-btn{
   background-color: rgb(255,80,80, 1);
 }
+
+h3{
+  padding:3px;
+  background-color: #262625;
+}
+
+#streamer,#receiver{
+  position: fixed;
+  top:10px;
+  right: 20px;
+  color: red;
+}
+#roomid{
+  position: fixed;
+  top:50px;
+  right: 20px;
+}
