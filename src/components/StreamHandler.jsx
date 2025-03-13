@@ -225,11 +225,11 @@ const StreamHandler = () => {
         let videoTrack = localStream.getTracks().find(track => track.kind === 'video')
         if(videoTrack.enabled){
             videoTrack.enabled = false
-            // localVideo.enabled = false
+            localVideoStream.enabled = false
             document.getElementById('camera-btn').style.backgroundColor = 'rgb(255, 80, 80)'
         }else{
             videoTrack.enabled = true
-            // localVideo.enabled = true
+            localVideoStream.enabled = true
             document.getElementById('camera-btn').style.backgroundColor = 'rgb(179, 102, 249, .9)'
         }
     }
