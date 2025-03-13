@@ -275,7 +275,7 @@ const StreamHandler = () => {
                     <img src={require('./icons/phone.png')} alt='phone button' onClick={leaveChannel}/>
                 </div>
             </a>
-            <div id="roomid"><h3>Room ID : {roomID}</h3></div>
+            <div id="roomid"><h3>{roomID}</h3></div>
             </div>
         </>
         )
