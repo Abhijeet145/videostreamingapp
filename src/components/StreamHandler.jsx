@@ -104,14 +104,14 @@ const StreamHandler = () => {
             }
         }
         else if(message.type === 'Leaving'){
-            console.log("Leaving was called")
-            for(let i = 2;i<=maxUsers;i++){
-                if(members.get(MemberId) === i){
-                    document.getElementById(`user-${i}`).style.display = 'none'
-                    memIds.add(i)//when user leaves add this as a potential user
-                    members.delete(MemberId)
-                }
-            }
+            console.log("Leaving was called");
+            // for(let i = 2;i<=maxUsers;i++){
+            //     if(members.get(MemberId) === i){
+            //         document.getElementById(`user-${i}`).style.display = 'none'
+            //         memIds.add(i)//when user leaves add this as a potential user
+            //         members.delete(MemberId)
+            //     }
+            // }
         }
     
     }
@@ -215,23 +215,23 @@ const StreamHandler = () => {
 
     let toggleCamera = async () => {
         
-        localVideoStream = await navigator.mediaDevices.getUserMedia({video:true,audio:false})
-        if(videoON === true)
-            document.getElementById('user-1').srcObject = null
-        else{
-            document.getElementById('user-1').srcObject = localVideoStream
+        // localVideoStream = await navigator.mediaDevices.getUserMedia({video:true,audio:false})
+        // if(videoON === true)
+        //     document.getElementById('user-1').srcObject = null
+        // else{
+        //     document.getElementById('user-1').srcObject = localVideoStream
+        // }
+        // videoON = !videoON
+        let videoTrack = localStream.getTracks().find(track => track.kind === 'video')
+        if(videoTrack.enabled){
+            videoTrack.enabled = false
+            // localVideo.enabled = false
+            document.getElementById('camera-btn').style.backgroundColor = 'rgb(255, 80, 80)'
+        }else{
+            videoTrack.enabled = true
+            // localVideo.enabled = true
+            document.getElementById('camera-btn').style.backgroundColor = 'rgb(179, 102, 249, .9)'
         }
-        videoON = !videoON
-        // // let videoTrack = localVideoStream.getTracks().find(track => track.kind === 'video')
-        // // if(videoTrack.enabled){
-        // //     videoTrack.enabled = false
-        // //     localVideo.enabled = false
-        // //     document.getElementById('camera-btn').style.backgroundColor = 'rgb(255, 80, 80)'
-        // // }else{
-        // //     videoTrack.enabled = true
-        // //     localVideo.enabled = true
-        // //     document.getElementById('camera-btn').style.backgroundColor = 'rgb(179, 102, 249, .9)'
-        // // }
     }
 
     let toggleMic = async () => {
