@@ -28,6 +28,7 @@ const StreamHandler = () => {
 
     let client
     let channel
+    let connection
     const memIds = new Set([2,3,4,5,6,7])
     const members = new Map([])
     // let memberNumber = 1
@@ -56,11 +57,12 @@ const StreamHandler = () => {
 
         channel.on('MemberLeft' , handleUserLeft)
 
-        localVideoStream = await navigator.mediaDevices.getUserMedia({video:true,audio:false})
-        localStream = await navigator.mediaDevices.getUserMedia({video:true,audio:audioVal})
-        if(isStreamer)
+        if(isStreamer){
+            localVideoStream = await navigator.mediaDevices.getUserMedia({video:true,audio:false})
+            localStream = await navigator.mediaDevices.getUserMedia({video:true,audio:audioVal})
             document.getElementById('user-1').srcObject = localVideoStream
-
+        }
+            
     }
 
     let leaveChannel = async()=>{
@@ -81,8 +83,9 @@ const StreamHandler = () => {
     let handleMessageFromPeer = async(message,MemberId)=>{
         
         message = JSON.parse(message.text)
-        // console.log('Handling some message from user')
+        console.log('Handling some message from user')
         if(message.type === 'offer'){
+            console.log("Offer received");
             // for(let i=2;i<=maxUsers;i++){
             //     if(memIds.has(i) === true){
             //         memberNumber = i;
@@ -96,9 +99,11 @@ const StreamHandler = () => {
     
         else if(message.type === 'answer'){
             addAnswer(message.answer,MemberId)
+            console.log("Answer received");
         }
     
         else if(message.type === 'candidate'){
+            console.log("Candidate  received");
             if(peerConnection.get(MemberId)){
                 peerConnection.get(MemberId).addIceCandidate(message.candidate)
             }
@@ -135,50 +140,51 @@ const StreamHandler = () => {
     }
 
     let createPeerConnectoion = async(MemberId)=>{
-        let connection = new RTCPeerConnection(servers)
-        peerConnection.set(MemberId,connection)
+        connection = new RTCPeerConnection(servers)
+        // await setTimeout(async()=>{
+            peerConnection.set(MemberId,connection)
 
-        //handle the remote stream for receivers of stream(downstream)
-        if(isStreamer === false){
-            let stream = new MediaStream()
-            remoteStream.set(MemberId,stream)
-            document.getElementById(`user-1`).srcObject = stream
-            document.getElementById(`user-1`).style.display = 'block'
-            // console.log('I am adding remote stream');
+            //handle the remote stream for receivers of stream(downstream)
+            if(isStreamer === false){
+                let stream = new MediaStream()
+                remoteStream.set(MemberId,stream)
+                document.getElementById(`user-1`).srcObject = stream
+                document.getElementById(`user-1`).style.display = 'block'
+                // console.log('I am adding remote stream');
 
-            connection.ontrack = (event)=>{
-                event.streams[0].getTracks().forEach(async track=>{
-                    await stream.addTrack(track)
+                connection.ontrack = (event)=>{
+                    event.streams[0].getTracks().forEach(async track=>{
+                        await stream.addTrack(track)
+                    })
+                }
+            }
+            
+            //if a streamer then it will set the upstream
+            if(isStreamer === true){
+                if(!localStream){
+                    localVideoStream = await navigator.mediaDevices.getUserMedia({video:true,audio:false})
+                    localStream = await navigator.mediaDevices.getUserMedia({video:true,audio:audioVal})
+                    document.getElementById('user-1').srcObject = localVideoStream
+                }
+        
+                //Adds all the tracks to peerConnection
+                localStream.getTracks().forEach( async track => {
+                    await connection.addTrack(track,localStream)
                 })
-            }
-        }
-        
-        //if a streamer then it will set the upstream
-        if(isStreamer === true){
-            if(!localStream){
-                localVideoStream = await navigator.mediaDevices.getUserMedia({video:true,audio:false})
-                localStream = await navigator.mediaDevices.getUserMedia({video:true,audio:audioVal})
-                document.getElementById('user-1').srcObject = localVideoStream
-            }
-    
-            //Adds all the tracks to peerConnection
-            localStream.getTracks().forEach( async track => {
-                await connection.addTrack(track,localStream)
-            })
-            console.log("Tracks added to localstream");
+                console.log("Tracks added to localstream");
 
-        }
-        // if(isStreamer === false){
-            //here connection ontrack was present
-        // }
-        
-        //send ice candidates
-        connection.onicecandidate = async (event)=>{
-            if(event.candidate){
-                await client.sendMessageToPeer({text:JSON.stringify({'type':'candidate','candidate':event.candidate})},MemberId)
             }
-        }
-       
+            // if(isStreamer === false){
+                //here connection ontrack was present
+            // }
+            
+            //send ice candidates
+            connection.onicecandidate = async (event)=>{
+                if(event.candidate){
+                    await client.sendMessageToPeer({text:JSON.stringify({'type':'candidate','candidate':event.candidate})},MemberId)
+                }
+            }
+        // },500); 
     }
 
     let createOffer = async(MemberId)=>{
