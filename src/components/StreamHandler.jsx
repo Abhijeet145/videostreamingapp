@@ -51,12 +51,14 @@ const StreamHandler = () => {
         channel = client.createChannel(roomID)
         await channel.join()
 
+        //listening for new member joining
         channel.on('MemberJoined',handleUserJoined)
-
+        //listening for message from peer
         client.on('MessageFromPeer',handleMessageFromPeer)
-
+        //listening for member leaving
         channel.on('MemberLeft' , handleUserLeft)
 
+        //if it is a streamer we connect video and audio
         if(isStreamer){
             localVideoStream = await navigator.mediaDevices.getUserMedia({video:true,audio:false})
             localStream = await navigator.mediaDevices.getUserMedia({video:true,audio:audioVal})
